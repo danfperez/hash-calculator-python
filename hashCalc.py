@@ -2,6 +2,9 @@
 ### Hash Calculator
 ### Description: Simple hash calculator based on standard Python libraries
 ### Author: Daniel Fernández Pérez
+### Notes: 
+###  - sys.exit(1) if finished without errors
+###  - sys.exit(2) if finished with any error
 ##########################################################################
 
 # Required imports:
@@ -82,21 +85,59 @@ def calc(hash,format,input):
 ## usage help massage on console
 		
 def displayHelp():
-	print ('usage: hashCalc.py -m <hashMethod> -f <inputFormat> -i <input>')
+	print ('Usage: hashCalc.py -m <hashMethod> -f <inputFormat> -i <input>')
 	print ('- Hash Methods available: md5, sha1, sha384, sha256 and sha512')
 	print ('- Input formats accepted: string (s) and file (f).')
 	print ('  If format is file, use full path.')
 
+# askForHash - Function to get hash value from user
+# input:
+## none
+# output:
+## input from user	
+
+def askForHash():
+	choice = ''
+	
+	print ('Do you want to compare with a previous hash value? (Y/N)')
+	choice = input ('> ').lower()
+	
+	if choice in ("y","yes"):
+		print ('Please enter hash value to compare.')
+		return input ('> ')
+	elif choice in ("n","no"):
+		print ('No problem. Exiting...')
+		sys.exit(1)
+	else:
+		print ('Answer not valid. Exiting...')
+		sys.exit(2)
+
+# compareHash - Funtion to compare 2 hash values
+# input:
+## oldHash especifies the hash calculated by the program
+## newHash especifies the hash manually entered by the user
+# ouput:
+## result of comparison on console
+
+def compareHash(oldHash,newHash):
+	if oldHash == newHash:
+		print ('Both hash values are equal')
+	else:
+		print ('Hash values do not match')
+	
 # main - Function to handle the main functionality of the program
 # input:
 ## argv list or arguments used passed to the program
 # output:
-## Hash calculation, help information or error message
+## hash calculation, help information or error message
 	
 def main(argv):
 	input = ''
 	hashMethod = ''
 	inputFormat = ''
+	hashResult = ''
+	newHash = ''
+	
 	try:
 		opts, args = getopt.getopt(argv,"hm:f:i:",["mhash=","iformat=","input="])
 	except getopt.GetoptError:
@@ -117,7 +158,10 @@ def main(argv):
 			elif opt.lower() in ("-i","--input"):
 				input = arg.lower()
 	
-		print (calc(hashMethod,inputFormat,input))
+		hashResult = calc(hashMethod,inputFormat,input)
+		print (hashResult)
+		newHash = askForHash()
+		compareHash (hashResult, newHash)
 		sys.exit(1)
 
 if __name__ == "__main__":
