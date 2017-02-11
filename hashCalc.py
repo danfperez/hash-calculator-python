@@ -21,6 +21,9 @@ import hashlib, sys, getopt
 ## input defines either the string or the file to calculate hash 
 # output:
 ## hash calculation or error message
+# notes:
+## using encode('utf-8') when managing strings to avoid encoding errors
+## using open(input, 'rb') to open file as binary and avoid format issues
 
 def calc(hash,format,input):
 	if hash == 'md5':
