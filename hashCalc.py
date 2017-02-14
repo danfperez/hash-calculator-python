@@ -33,7 +33,6 @@ def calc(hash,format,input):
 			except (OSError, IOError) as e:
 				print ('There has been an issue accessing the file.')
 				sys.exit(2)
-			
 			return hashlib.md5(open(input, 'rb').read()).hexdigest()
 		elif format in ("s","string"):
 			return hashlib.md5(input.encode('utf-8')).hexdigest()
@@ -77,6 +76,26 @@ def calc(hash,format,input):
 			return hashlib.sha512(open(input, 'rb').read()).hexdigest()
 		elif format in ("s","string"):
 			return hashlib.sha512(input.encode('utf-8')).hexdigest()
+	elif hash == 'all':
+		if format in ("f", "file"):
+			try:
+				open(input)
+			except (OSError, IOError) as e:
+				print ('There has been an issue accessing the file.')
+				sys.exit(2)
+			print ('MD5: ', hashlib.md5(open(input, 'rb').read()).hexdigest())
+			print ('SHA1: ', hashlib.sha1(open(input, 'rb').read()).hexdigest())
+			print ('SHA256: ', hashlib.sha256(open(input, 'rb').read()).hexdigest())
+			print ('SHA384: ', hashlib.sha384(open(input, 'rb').read()).hexdigest())
+			print ('SHA512: ', hashlib.sha512(open(input, 'rb').read()).hexdigest())
+			return ''
+		elif format in ("s","string"):
+			print ('MD5: ', hashlib.md5(input.encode('utf-8')).hexdigest())
+			print ('SHA1: ', hashlib.sha1(input.encode('utf-8')).hexdigest())
+			print ('SHA256: ', hashlib.sha256(input.encode('utf-8')).hexdigest())
+			print ('SHA384: ', hashlib.sha384(input.encode('utf-8')).hexdigest())
+			print ('SHA512: ', hashlib.sha512(input.encode('utf-8')).hexdigest())
+			return ''
 	else:
 		print ('Unsuported hash type.')
 		sys.exit(2)
@@ -89,7 +108,8 @@ def calc(hash,format,input):
 		
 def displayHelp():
 	print ('Usage: hashCalc.py -m <hashMethod> -f <inputFormat> -i <input>')
-	print ('- Hash Methods available: md5, sha1, sha384, sha256 and sha512')
+	print ('- Hash Methods available: md5, sha1, sha256, sha384 and sha512')
+	print ('  Use "all" (without inverted commas) to calculate all hash methods')
 	print ('- Input formats accepted: string (s) and file (f).')
 	print ('  If format is file, use full path.')
 
@@ -139,7 +159,6 @@ def main(argv):
 	hashMethod = ''
 	inputFormat = ''
 	hashResult = ''
-	newHash = ''
 	
 	try:
 		opts, args = getopt.getopt(argv,"hm:f:i:",["mhash=","iformat=","input="])
@@ -148,6 +167,11 @@ def main(argv):
 		sys.exit(2)
 	if not argv:
 		print('No arguments have been passed.')
+		displayHelp()
+		sys.exit(2)
+	elif len(argv)<6:
+		print('Invalid arguments passed.')
+		displayHelp()
 		sys.exit(2)
 	else:
 		for opt, arg in opts:
@@ -163,8 +187,8 @@ def main(argv):
 	
 		hashResult = calc(hashMethod,inputFormat,input)
 		print (hashResult)
-		newHash = askForHash()
-		compareHash (hashResult, newHash)
+		if hashMethod !='all':
+			compareHash (hashResult, askForHash())
 		sys.exit(1)
 
 if __name__ == "__main__":
