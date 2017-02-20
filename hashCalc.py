@@ -16,9 +16,9 @@ import hashlib, sys, getopt
 
 # calc - Function to calculate the hash based on user input
 # input: 
-## hash specifies the hashing method defined by user
-## format specifies the format of the input: string (s) or file (f)
-## input defines either the string or the file to calculate hash 
+## hash, specifies the hashing method defined by user
+## format, specifies the format of the input: string (s) or file (f)
+## input, defines either the string or the file to calculate hash 
 # output:
 ## hash calculation or error message
 # notes:
@@ -104,7 +104,7 @@ def calc(hash,format,input):
 # input:
 ## none
 # output:
-## usage help massage on console
+## usage help message on console
 		
 def displayHelp():
 	print ('Usage: hashCalc.py -m <hashMethod> -f <inputFormat> -i <input>')
@@ -117,7 +117,7 @@ def displayHelp():
 # input:
 ## none
 # output:
-## input from user	
+## input entered by the user in the console	
 
 def askForHash():
 	choice = ''
@@ -135,7 +135,7 @@ def askForHash():
 		print ('Answer not valid. Exiting...')
 		sys.exit(2)
 
-# compareHash - Funtion to compare 2 hash values
+# compareHash - Function to compare 2 hash values
 # input:
 ## oldHash especifies the hash calculated by the program
 ## newHash especifies the hash manually entered by the user
@@ -150,7 +150,7 @@ def compareHash(oldHash,newHash):
 	
 # main - Function to handle the main functionality of the program
 # input:
-## argv list or arguments used passed to the program
+## argv, list or arguments user passed to the program
 # output:
 ## hash calculation, help information or error message
 	
