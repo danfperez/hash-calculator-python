@@ -1,7 +1,7 @@
 ##########################################################################
 ### Hash Calculator
 ### Description: Simple hash calculator based on standard Python libraries
-### Author: Daniel Fernández Pérez
+### Author: Daniel Fernandez Perez
 ### Notes: 
 ###  - sys.exit(1) if finished without errors
 ###  - sys.exit(2) if finished with any error
